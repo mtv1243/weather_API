@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="main.css">
+  <title>weather api</title>
+</head>
+<body>
+  <script
+  src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous"></script>
+
+    <form action="">
+      <p id="description">Input your ZIP Code to get your current weather conditions. Way better than looking outside.</p>
+      <!-- <span>ZIP Code: </span> -->
+      <input id="zipInput" type="text" name="ZIP Code">
+      <input id="submitButton" type="submit">
+    </form>
+
+    <span id="tempEl"></span> <span id="cloudsEl"></span> <span id="windEl"></span>
+
+<!-- SCRIPT BELOW -->
+    <script>
+      let submitButton = document.getElementById('submitButton');
+      let apiKey = '4afea902e09df6fe41727a1097c66f57';
+      let zip;
+      let weather;
+      let tempF;
+
+      submitButton.addEventListener('click',(event)=>{
+        event.preventDefault();
+        zip = document.getElementById('zipInput').value;
+        console.log(zip);
+
+        //API Request
+        weather = $.ajax({
+          url: 'https://cors-anywhere.herokuapp.com/api.openweathermap.org/data/2.5/weather?zip=' + zip + ',us&APPID=' + apiKey,
+          type: 'GET',
+          data: {
+            format: 'json'
+          },
+          success: (res)=>{
+            let tempK = res.main.temp;
+            tempF = Math.floor((tempK - 273.15) * 9/5 + 32);
+            let cloudCover = res.clouds.all;
+            let windSpeed = res.wind.speed;
+            let time = res.dt;
+
+            document.getElementById('tempEl').innerHTML='The temperature is ' + tempF + '. ';
+            document.getElementById('cloudsEl').innerHTML='Your cloud cover is ' + cloudCover + '%. ';
+            document.getElementById('windEl').innerHTML='Wind speed is ' + windSpeed + 'mph. ';
+
+
+          }
+        });
+      });
+
+    </script>
+</body>
+</html>
