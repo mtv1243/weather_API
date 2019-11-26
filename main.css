@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap');
+
+body {
+  font-family: "Lato", sans-serif;
+}
+
+main {
+  width: 70%;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: 3rem;
+  font-weight: 300;
+  text-align: center;
+}
+
+.fas {
+  font-size: 1.5rem;
+  font-weight: 300;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#forecast {
+  margin-top: 60px;
+}
+
+.currentResult {
+  margin-top: 30px;
+}
+
+#currentWeather,
+#forecast,
+.currentResult {
+  font-weight: 300;
+}
+
+#tempEl,
+#cloudsEl,
+#windEl,
+#tempElForecast,
+#cloudsElForecast,
+#windElForecast {
+  font-weight: 700;
+}

@@ -8,22 +8,43 @@
   <title>weather api</title>
 </head>
 <body>
+  <script src="https://kit.fontawesome.com/74268939d2.js" crossorigin="anonymous"></script>
   <script
   src="https://code.jquery.com/jquery-3.4.1.js"
   integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
   crossorigin="anonymous"></script>
 
-    <form action="">
+<main>
+  <div class="title"><i class="fas fa-bolt"></i><i class="fas fa-cloud"></i>Get Weather<i class="fas fa-wind"></i><i class="fas fa-sun"></i></div>
+<!-- CURRENT WEATHER -->
+    <form id="currentWeather" action="">
+      <h2 id="currentWeatherTitle">Current Weather</h2>
       <p id="description">Input your ZIP Code to get your current weather conditions. Way better than looking outside.</p>
-      <!-- <span>ZIP Code: </span> -->
       <input id="zipInput" type="text" name="ZIP Code">
-      <input id="submitButton" type="submit">
+      <input id="submitButton" type="submit" value="Weather me">
+    </form>
+    <div class="currentResult">
+      <span>Right now it is </span><span id="tempEl">__</span>F, with <span id="cloudsEl">__</span>% cloud cover, and windspeed is <span id="windEl">__</span>mp/h.</span>
+    </div>
+<!-- FORECAST WEATHER -->
+    <form id="forecast" action="">
+      <h2 id="forecastTitle">Forecast</h2>
+      <p id="descriptionForecast">Input your Zip here to get tomorrow's forecast. Yes we're psychic. No we're not telling you the lottery numbers.</p>
+      <input id="zipInputForecast" type="text" name="ZIP Code Forecast">
+      <input id="submitButtonForecast" type="submit" value="Weather me">
     </form>
 
-    <span id="tempEl"></span> <span id="cloudsEl"></span> <span id="windEl"></span>
+    <div id="forecastResult">
+      <p id="forecast">This time tomorrow, the temperature will be <span id="tempElForecast">__</span>F, the cloud cover will be <span id="cloudsElForecast">__</span>%, and the wind speed will be <span id="windElForecast">__</span> meters per second.</p>
 
+    </div>
+</main>
 <!-- SCRIPT BELOW -->
     <script>
+
+    /*******************************
+    Current weather forecast
+    */
       let submitButton = document.getElementById('submitButton');
       let apiKey = '4afea902e09df6fe41727a1097c66f57';
       let zip;
@@ -49,14 +70,47 @@
             let windSpeed = res.wind.speed;
             let time = res.dt;
 
-            document.getElementById('tempEl').innerHTML='The temperature is ' + tempF + '. ';
-            document.getElementById('cloudsEl').innerHTML='Your cloud cover is ' + cloudCover + '%. ';
-            document.getElementById('windEl').innerHTML='Wind speed is ' + windSpeed + 'mph. ';
+            document.getElementById('tempEl').innerHTML= tempF;
+            document.getElementById('cloudsEl').innerHTML= cloudCover;
+            document.getElementById('windEl').innerHTML= windSpeed;
 
 
           }
         });
       });
+// close addEventListener
+
+      /*************************************
+      5 day forecast
+      */
+      // let apiForecast = 'https://cors-anywhere.herokuapp.com/api.openweathermap.org/data/2.5/forecast?zip=';
+      let submitButtonForecast = document.getElementById('submitButtonForecast');
+      let tempElForecast = document.getElementById('tempElForecast');
+      let cloudsElForecast = document.getElementById('cloudsElForecast');
+      let windElForecast = document.getElementById('windElForecast');
+
+      submitButtonForecast.addEventListener('click', (event)=>{
+        event.preventDefault();
+        zip = document.getElementById('zipInputForecast').value + ',us&APPID=';
+
+        weather = $.ajax({
+          url: 'https://cors-anywhere.herokuapp.com/api.openweathermap.org/data/2.5/forecast?zip=' + zip + '4afea902e09df6fe41727a1097c66f57',
+          type: 'GET',
+          data: {
+            format: 'JSON'
+          },
+          success: (res)=>{
+            let tempForecast = Math.floor((res.list[6].main.temp) - 273.15) * 9/5 + 32;
+            let cloudsForecast = res.list[6].clouds.all;
+            let windSpeedForecast = res.list[6].wind.speed;
+            tempElForecast.innerHTML = tempForecast;
+            cloudsElForecast.innerHTML = cloudsForecast;
+            windElForecast.innerHTML = windSpeedForecast;
+
+          }
+        })
+      });
+
 
     </script>
 </body>
