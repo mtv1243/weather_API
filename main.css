@@ -23,11 +23,12 @@ main {
 }
 
 #forecast {
-  margin-top: 60px;
+  margin-top: 30px;
 }
 
 .currentResult {
   margin-top: 30px;
+  margin-bottom: 60px;
 }
 
 #currentWeather,
