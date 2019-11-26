@@ -22,6 +22,10 @@ main {
   padding-right: 5px;
 }
 
+#currentWeather {
+  margin-top: 60px;
+}
+
 #forecast {
   margin-top: 30px;
 }
